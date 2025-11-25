@@ -20,6 +20,8 @@
 ---
 include:
   - board: seeeduino_xiao_ble
-    shield: lily58_left
+    shield: o_keyboard_left
+    snippet: studio-rpc-usb-uart
+    cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: seeeduino_xiao_ble
-    shield: lily58_right
+    shield: o_keyboard_right
