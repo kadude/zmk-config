@@ -7,7 +7,6 @@ requires:
   - seeeduino_xiao_ble
 features:
   - keys
-  - studio
 siblings:
   - o_keyboard_left
   - o_keyboard_right
