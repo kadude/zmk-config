@@ -3,6 +3,8 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
+#include "keymap_norwegian.h"
+
 
 &soft_off {
     hold-time-ms = <5000>; // Only turn off it the key is held for 5 seconds or longer.
@@ -34,14 +36,14 @@
 // |  ESC  |  1  |  2  |  3   |  4   |  5   |                   |  6   |  7    |  8    |  9   |   0   | EXTRA |
 // |  TAB  |  Q  |  W  |  E   |  R   |  T   |                   |  Y   |  U    |  I    |  O   |   P   |   Å   |
 // | SHIFT |  A  |  S  |  D   |  F   |  G   |                   |  H   |  J    |  K    |  L   |   Ø   |   Æ   |
-// |  CTRL |  Z  |  X  |  C   |  V   |  B   |                   |  N   |  M    |  ,;   |  .:   |   -   | SHIFT |
+// |  CTRL |  Z  |  X  |  C   |  V   |  B   |                   |  N   |  M    |  ,;   |  .:   |   -   | ENTER |
 //                                | LOWER | ENTER | ALT |    | BACKSPACE | SPACE | RAISE |
             bindings = <
 &kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                    &kp N6 &kp N7   &kp N8            &kp N9     &kp N0       &mo 3
 &kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                     &kp Y  &kp U    &kp I             &kp O      &kp P        &uc UC_DA_AA
 &kp LSHFT &kp A  &kp S  &kp D    &kp F    &kp G                     &kp H  &kp J    &kp K             &kp L      &uc UC_DA_OE &uc UC_DA_AE
-&kp LCTRL &kp Z  &kp X  &kp C    &kp V    &kp B                     &kp N  &kp M    &comma_semicolon  &dot_colon &kp MINUS    &kp RSHFT
-                                    &mo 1 &kp RET &kp LALT    &kp BACKSPACE &kp SPACE  &mo 2
+&kp LCTRL &kp Z  &kp X  &kp C    &kp V    &kp B                     &kp N  &kp M    &comma_semicolon  &dot_colon &kp MINUS    &kp RET
+                                    &lt 1 LGUI &mt LSHIFT RET &kp LALT    &kp BACKSPACE &kp SPACE  &lt 2 DELETE
             >;
 
             /* sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>; */
@@ -51,16 +53,16 @@
             display-name = "Lower Layer";
 // ------------------------------------------------------------------------------------------------------------
 // |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
-// |   `   |  !  |  @  |  #   |  $   |  %   |                   |  &   |  ^    |  *    |  (   |   )   |   ~   |
+// |   `(*)|  !  | @(*)|  #   |  $(*)|  %   |                   |  &   |  ^    |  *    |  (   |   )   |   ~   |
 // |       |     |     |      |      |      |                   |      |  _    |  +    |  {   |   }   |  "|"  |
 // |       |     |     |      |      |      |                   |      |  _    |  +    |  [   |   ]   | ENTER |
 //                     |      |      |      |  GUI  |  | DELETE  |      |       |       |
             bindings = <
 &kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
-&kp GRAVE  &kp EXCL         &kp AT            &kp HASH          &kp DOLLAR   &kp PRCNT                    &kp AMPS  &kp CARET &kp ASTRK &kp LPAR  &kp RPAR  &kp TILDE
-&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp LBRC  &kp RBRC  &kp PIPE
-&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp LBKT  &kp RBKT  &kp RET
-                                                          &trans       &trans    &kp GUI             &kp DELETE    &kp BACKSPACE    &trans
+&kp GRAVE  &kp EXCL         &kp RA(N2)        &kp HASH          &kp LS(N4)   &kp PRCNT                    &kp AMPS  &kp CARET &kp ASTRK &kp LPAR  &kp RPAR  &kp RA(CARET)
+&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp RA(N7)  &kp RA(N0)  &kp PIPE
+&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp RA(N8)  &kp RA(N9)  &kp RET
+                                                          &trans       &trans    &kp LGUI             &kp DELETE    &kp BACKSPACE    &trans
             >;
 
             /* sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>; */
@@ -76,10 +78,10 @@
 //                            |      |      |  GUI   |  |       |      |       |
             bindings = <
 &kp PIPE  &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
-&trans    &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
+&kp GRAVE  &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
 &trans    &trans &trans &trans  &trans  &trans                       &trans      &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &trans
 &trans    &trans &trans &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
-                                &trans  &trans    &kp GUI   &trans    &trans      &trans
+                                &trans  &trans    &kp LGUI   &trans    &trans      &trans
             >;
 
             /* sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>; */
