@@ -58,7 +58,7 @@
 // |       |     |     |      |      |      |                   |      |  _    |  +    |  [   |   ]   | ENTER |
 //                     |      |      |      |  GUI  |  | DELETE  |      |       |       |
             bindings = <
-&kp NO_PIPE  &kp NO_EXLM         &kp NO_AT        &kp NO_HASH          &kp NO_CURR   &kp NO_PERC                    &kp NO_AMPR  &kp CARET &kp ASTRK &kp NO_LPRN  &kp NO_RPRN  &kp RA(CARET)
+&kp NO_PIPE  &kp NO_EXLM         &kp NO_AT        &kp NO_HASH          &kp NO_CURR   &kp NO_PERC                    &kp NO_AMPR  &kp CARET &kp ASTRK &kp NO_LPRN  &kp NO_RPRN  &kp NO_TILD
 &kp GRAVE  &trans           &trans            &trans            &trans       &trans                    &trans           &trans            &trans            &trans       &trans  &kp NO_QUOT
 &trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp NO_MINS &kp NO_PLUS  &kp NO_LCBR  &kp NO_RCBR  &kp NO_ASTR
 &trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp NO_UNDS &kp NO_PLUS  &kp NO_LBRC  &kp NO_RBRC  &kp RET
