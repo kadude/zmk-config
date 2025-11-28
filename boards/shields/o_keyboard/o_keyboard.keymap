@@ -43,7 +43,7 @@
 &kp TAB   &kp NO_Q  &kp NO_W  &kp NO_E    &kp NO_R    &kp NO_T                     &kp NO_Y  &kp NO_U    &kp NO_I             &kp NO_O      &kp NO_P        &uc UC_DA_AA
 &kp LSHFT &kp NO_A  &kp NO_S  &kp NO_D    &kp NO_F    &kp NO_G                     &kp NO_H  &kp NO_J    &kp NO_K             &kp NO_L      &uc UC_DA_OE &uc UC_DA_AE
 &kp LCTRL &kp NO_Z  &kp NO_X  &kp NO_C    &kp NO_V    &kp NO_B                     &kp NO_N  &kp NO_M    &comma_semicolon  &dot_colon &kp NO_MINS    &kp RET
-                                    &lt 1 LGUI &mt LSHIFT RET &kp LALT    &kp BACKSPACE &kp SPACE  &lt 2 DELETE
+                                    &mo 1 &kp RET &kp LALT    &kp BACKSPACE &kp SPACE  &mo 2
             >;
 
             /* sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN>; */
