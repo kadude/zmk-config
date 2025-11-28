@@ -54,7 +54,7 @@
 #define NO_M    M    // M
 #define NO_COMM COMMA // ,
 #define NO_DOT  DOT  // .
-#define NO_MINS SLSH // -
+#define NO_MINS FSLH // -
 #define NO_SECT LS(NO_PIPE) // §
 #define NO_EXLM LS(NO_1)    // !
 #define NO_DQUO LS(NO_2)    // "
