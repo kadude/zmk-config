@@ -31,7 +31,7 @@
 #define NO_O    O    // O
 #define NO_P    P    // P
 // #define NO_ARNG KC_LBRC // Å
-// #define NO_DIAE KC_RBRC // ¨ (dead)
+#define NO_DIAE RBRC // ¨ (dead)
 #define NO_A    A    // A
 #define NO_S    S    // S
 #define NO_D    D    // D
