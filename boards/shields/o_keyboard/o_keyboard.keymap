@@ -15,13 +15,13 @@
         comma_semicolon: comma_semicolon {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp COMMA>, <&kp SEMI>;
+            bindings = <&kp NO_COMM>, <&kp NO_SCLN>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
         dot_colon: dot_colon {
            compatible = "zmk,behavior-mod-morph";
            #binding-cells = <0>;
-           bindings = <&kp DOT>, <&kp COLON>;
+           bindings = <&kp NO_DOT>, <&kp NO_COLN>;
            mods = <(MOD_LSFT|MOD_RSFT)>;
         };
     };
@@ -39,10 +39,10 @@
 // |  CTRL |  Z  |  X  |  C   |  V   |  B   |                   |  N   |  M    |  ,;   |  .:   |   -   | ENTER |
 //                                | LOWER | ENTER | ALT |    | BACKSPACE | SPACE | RAISE |
             bindings = <
-&kp ESC   &kp N1 &kp N2 &kp N3   &kp N4   &kp N5                    &kp N6 &kp N7   &kp N8            &kp N9     &kp N0       &mo 3
-&kp TAB   &kp Q  &kp W  &kp E    &kp R    &kp T                     &kp Y  &kp U    &kp I             &kp O      &kp P        &uc UC_DA_AA
-&kp LSHFT &kp A  &kp S  &kp D    &kp F    &kp G                     &kp H  &kp J    &kp K             &kp L      &uc UC_DA_OE &uc UC_DA_AE
-&kp LCTRL &kp Z  &kp X  &kp C    &kp V    &kp B                     &kp N  &kp M    &comma_semicolon  &dot_colon &kp MINUS    &kp RET
+&kp ESC   &kp NO_1 &kp NO_2 &kp NO_3   &kp NO_4   &kp NO_5                    &kp NO_6 &kp NO_7   &kp NO_8            &kp NO_9     &kp NO_0       &mo 3
+&kp TAB   &kp NO_Q  &kp NO_W  &kp NO_E    &kp NO_R    &kp NO_T                     &kp NO_Y  &kp NO_U    &kp NO_I             &kp NO_O      &kp NO_P        &uc UC_DA_AA
+&kp LSHFT &kp NO_A  &kp NO_S  &kp NO_D    &kp NO_F    &kp NO_G                     &kp NO_H  &kp NO_J    &kp NO_K             &kp NO_L      &uc UC_DA_OE &uc UC_DA_AE
+&kp LCTRL &kp NO_Z  &kp NO_X  &kp NO_C    &kp NO_V    &kp NO_B                     &kp NO_N  &kp NO_M    &comma_semicolon  &dot_colon &kp NO_MINS    &kp RET
                                     &lt 1 LGUI &mt LSHIFT RET &kp LALT    &kp BACKSPACE &kp SPACE  &lt 2 DELETE
             >;
 
@@ -52,16 +52,16 @@
         lower_layer {
             display-name = "Lower Layer";
 // ------------------------------------------------------------------------------------------------------------
-// |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
-// |   `(*)|  !  | @(*)|  #   |  $(*)|  %   |                   |  &   |  ^    |  *    |  (   |   )   |   ~   |
-// |       |     |     |      |      |      |                   |      |  _    |  +    |  {   |   }   |  "|"  |
+// |  "|"  |  !  | @(*)|  #   |  $(*)|  %   |                   |  &   |  ^    |  *    |  (   |   )   |   ~   |
+// |   `(*)|     |     |      |      |      |                   |      |       |       |      |       |   '   |
+// |       |     |     |      |      |      |                   |      |  _    |  +    |  {   |   }   |   *   |
 // |       |     |     |      |      |      |                   |      |  _    |  +    |  [   |   ]   | ENTER |
 //                     |      |      |      |  GUI  |  | DELETE  |      |       |       |
             bindings = <
-&kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
-&kp GRAVE  &kp EXCL         &kp RA(N2)        &kp HASH          &kp LS(N4)   &kp PRCNT                    &kp AMPS  &kp CARET &kp ASTRK &kp LPAR  &kp RPAR  &kp RA(CARET)
-&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp RA(N7)  &kp RA(N0)  &kp PIPE
-&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp MINUS &kp PLUS  &kp RA(N8)  &kp RA(N9)  &kp RET
+&kp NO_PIPE  &kp NO_EXLM         &kp NO_AT        &kp NO_HASH          &kp NO_CURR   &kp NO_PERC                    &kp NO_AMPR  &kp CARET &kp ASTRK &kp NO_LPRN  &kp NO_RPRN  &kp RA(CARET)
+&kp GRAVE  &trans           &trans            &trans            &trans       &trans                    &trans           &trans            &trans            &trans       &trans  &kp NO_QUOT
+&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp NO_MINS &kp NO_PLUS  &kp NO_LCBR  &kp NO_RCBR  &kp NO_ASTR
+&trans     &trans           &trans            &trans            &trans       &trans                       &trans    &kp NO_UNDS &kp NO_PLUS  &kp NO_LBRC  &kp NO_RBRC  &kp RET
                                                           &trans       &trans    &kp LGUI             &kp DELETE    &kp BACKSPACE    &trans
             >;
 
@@ -71,13 +71,13 @@
         raise_layer {
             display-name = "Raise Layer";
 // ------------------------------------------------------------------------------------------------------------
-// |  "|"  |     |     |      |      |      |                   |      |       |       |      |       |       |
+// |  F1   |  F2 |  F3 |  F4  |  F5  |  F6  |                   |  F7  |  F8   |  F9   |  F10 |  F11  |  F12  |
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 // |       |     |     |      |      |      |                   |      |   <-  |   v   |  ^   |  ->   |       |
 // |       |     |     |      |      |      |                   |      |       |       |      |       |       |
 //                            |      |      |  GUI   |  |       |      |       |
             bindings = <
-&kp PIPE  &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
+&kp F1     &kp F2           &kp F3            &kp F4            &kp F5       &kp F6                       &kp F7    &kp F8    &kp F9    &kp F10   &kp F11   &kp F12
 &kp GRAVE  &trans &trans &trans  &trans  &trans                       &trans      &trans    &trans    &trans   &trans    &trans
 &trans    &trans &trans &trans  &trans  &trans                       &trans      &kp LEFT  &kp DOWN  &kp UP   &kp RIGHT &trans
 &trans    &trans &trans &trans  &trans  &trans    &trans   &trans    &trans      &trans    &trans    &trans   &trans    &trans
