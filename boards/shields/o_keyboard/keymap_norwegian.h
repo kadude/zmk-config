@@ -55,35 +55,35 @@
 #define NO_COMM COMMA // ,
 #define NO_DOT  DOT  // .
 #define NO_MINS SLSH // -
-#define NO_SECT S(NO_PIPE) // §
-#define NO_EXLM S(NO_1)    // !
-#define NO_DQUO S(NO_2)    // "
-#define NO_HASH S(NO_3)    // #
-#define NO_CURR S(NO_4)    // ¤
-#define NO_PERC S(NO_5)    // %
-#define NO_AMPR S(NO_6)    // &
-#define NO_SLSH S(NO_7)    // /
-#define NO_LPRN S(NO_8)    // (
-#define NO_RPRN S(NO_9)    // )
-#define NO_EQL  S(NO_0)    // =
-#define NO_QUES S(NO_PLUS) // ?
-#define NO_GRV  S(NO_BSLS) // ` (dead)
-#define NO_CIRC S(NO_DIAE) // ^ (dead)
-#define NO_ASTR S(NO_QUOT) // *
-#define NO_RABK S(NO_LABK) // >
-#define NO_SCLN S(NO_COMM) // ;
-#define NO_COLN S(NO_DOT)  // :
-#define NO_UNDS S(NO_MINS) // _
-#define NO_AT   ALGR(NO_2)    // @
-#define NO_PND  ALGR(NO_3)    // £
-#define NO_DLR  ALGR(NO_4)    // $
-#define NO_EURO ALGR(NO_5)    // €
-#define NO_LCBR ALGR(NO_7)    // {
-#define NO_LBRC ALGR(NO_8)    // [
-#define NO_RBRC ALGR(NO_9)    // ]
-#define NO_RCBR ALGR(NO_0)    // }
-#define NO_ACUT ALGR(NO_BSLS) // ´ (dead)
-#define NO_TILD ALGR(NO_DIAE) // ~ (dead)
-#define NO_MICR ALGR(NO_M)    // µ
+#define NO_SECT LS(NO_PIPE) // §
+#define NO_EXLM LS(NO_1)    // !
+#define NO_DQUO LS(NO_2)    // "
+#define NO_HASH LS(NO_3)    // #
+#define NO_CURR LS(NO_4)    // ¤
+#define NO_PERC LS(NO_5)    // %
+#define NO_AMPR LS(NO_6)    // &
+#define NO_SLSH LS(NO_7)    // /
+#define NO_LPRN LS(NO_8)    // (
+#define NO_RPRN LS(NO_9)    // )
+#define NO_EQL  LS(NO_0)    // =
+#define NO_QUES LS(NO_PLUS) // ?
+#define NO_GRV  LS(NO_BSLS) // ` (dead)
+#define NO_CIRC LS(NO_DIAE) // ^ (dead)
+#define NO_ASTR LS(NO_QUOT) // *
+#define NO_RABK LS(NO_LABK) // >
+#define NO_SCLN LS(NO_COMM) // ;
+#define NO_COLN LS(NO_DOT)  // :
+#define NO_UNDS LS(NO_MINS) // _
+#define NO_AT   RA(NO_2)    // @
+#define NO_PND  RA(NO_3)    // £
+#define NO_DLR  RA(NO_4)    // $
+#define NO_EURO RA(NO_5)    // €
+#define NO_LCBR RA(NO_7)    // {
+#define NO_LBRC RA(NO_8)    // [
+#define NO_RBRC RA(NO_9)    // ]
+#define NO_RCBR RA(NO_0)    // }
+#define NO_ACUT RA(NO_BSLS) // ´ (dead)
+#define NO_TILD RA(NO_DIAE) // ~ (dead)
+#define NO_MICR RA(NO_M)    // µ
 
 
