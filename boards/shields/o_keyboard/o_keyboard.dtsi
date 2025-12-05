@@ -16,7 +16,6 @@
         compatible = "zmk,gpio-key-wakeup-trigger";
         trigger = <&kscan0>;
         wakeup-source;
-        key-positions = <15>; // D key position (row 2, col 3: RC(2,3))
         extra-gpios
             = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 2
             , <&xiao_d 3 GPIO_ACTIVE_HIGH>                      // Col 3
