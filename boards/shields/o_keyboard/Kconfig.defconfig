@@ -14,13 +14,5 @@ if SHIELD_O_KEYBOARD_LEFT || SHIELD_O_KEYBOARD_RIGHT
 config ZMK_SPLIT
     default y
 
-config CONFIG_ZMK_PM_SOFT_OFF
-    default y
-
-
 endif
-
-
-# config CONFIG_ZMK_SLEEP
-#     default y
 
