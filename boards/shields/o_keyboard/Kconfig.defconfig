@@ -20,6 +20,6 @@ endif
 config CONFIG_ZMK_PM_SOFT_OFF
     default y
 
-config CONFIG_ZMK_SLEEP
-    default y
+# config CONFIG_ZMK_SLEEP
+#     default y
 
