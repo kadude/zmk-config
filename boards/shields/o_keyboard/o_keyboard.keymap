@@ -28,6 +28,17 @@
     };
 
     behaviors {
+        // Hold-tap for letter keys: the hold only resolves on the timer (never on
+        // an overlapping keypress) and is suppressed right after another key, so
+        // rolls and normal typing always produce the letter.
+        mod_tap: mod_tap {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <200>;
+            require-prior-idle-ms = <150>;
+            bindings = <&kp>, <&kp>;
+        };
         comma_semicolon: comma_semicolon {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
@@ -62,6 +73,9 @@
 //        │  SHIFT  │  A  │  S  │  D  │  F  │  G  │                              │  H  │  J  │  K  │  L  │  Ø  │   Æ   │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
 //        │  CTRL   │  Z  │  X  │  C  │  V  │  B  │                              │  N  │  M  │  ,; │  .: │  -  │ ENTER │
+//        │         │CTRL+│     │     │     │     │                              │     │     │     │     │     │CTRL+  │
+//        │         │SHFT+│     │     │     │     │                              │     │     │     │     │     │SHIFT  │
+//        │         │ GUI │     │     │     │     │                              │     │     │     │     │     │       │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼─────┼─────┼─────┴─────┴─────┴───────╯
 //                                    │LOWER│ENTER│ ALT │                  │BKSPC│SPACE│RAISE│
 //                                    │ GUI │SHIFT│     │                  │     │     │     │
@@ -70,7 +84,7 @@
 &kp ESC   &kp NO_1 &kp NO_2 &kp NO_3   &kp NO_4   &kp NO_5                    &kp NO_6 &kp NO_7   &kp NO_8            &kp NO_9     &kp NO_0       &mo 3
 &kp TAB   &kp NO_Q  &kp NO_W  &kp NO_E    &kp NO_R    &kp NO_T                     &kp NO_Y  &kp NO_U    &kp NO_I             &kp NO_O      &kp NO_P        &kp NO_A_RING
 &kp LSHFT &kp NO_A  &kp NO_S  &kp NO_D    &kp NO_F    &kp NO_G                     &kp NO_H  &kp NO_J    &kp NO_K             &kp NO_L      &kp NO_O_SLASH &kp NO_AE
-&kp LCTRL &kp NO_Z  &kp NO_X  &kp NO_C    &kp NO_V    &kp NO_B                     &kp NO_N  &kp NO_M    &comma_semicolon  &dot_colon &kp NO_MINS    &kp RET
+&kp LCTRL &mod_tap LS(LC(LGUI)) NO_Z  &kp NO_X  &kp NO_C    &kp NO_V    &kp NO_B                   &kp NO_N  &kp NO_M    &comma_semicolon  &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
                                     &lt 1 LGUI &mt LSHIFT RET &kp LALT    &kp BACKSPACE &kp SPACE  &mo 2
             >;
 
@@ -112,33 +126,35 @@
 //        │         │     │     │     │     │     │                              │     │      │ PG_DN │     │     │       │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼─────┼──────┼───────┴─────┴─────┴───────╯
 //                                    │ GUI │ TAB │ ALT │                  │     │     │      │
+//                                    │     │SHIFT│     │                  │     │     │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴──────╯
             bindings = <
-&kp F1     &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                       &kp F7    &kp F8    &kp F9     &kp F10    &kp F11   &kp F12
-&trans     &trans  &trans  &trans  &trans  &trans                       &kp INS   &kp HOME  &kp PG_UP  &trans     &trans    &trans
-&trans     &trans  &trans  &trans  &trans  &trans                       &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT  &kp END   &trans
-&trans     &trans  &trans  &trans  &trans  &trans                       &trans    &trans    &kp PG_DN  &trans     &trans    &trans
-                                &kp LGUI  &kp TAB  &kp LALT         &trans    &trans    &trans
+&kp F1     &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                                 &kp F7    &kp F8    &kp F9     &kp F10    &kp F11   &kp F12
+&trans     &trans  &trans  &trans  &trans  &trans                                 &kp INS   &kp HOME  &kp PG_UP  &trans     &trans    &trans
+&trans     &trans  &trans  &trans  &trans  &trans                                 &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT  &kp END   &trans
+&trans     &trans  &trans  &trans  &trans  &trans                                 &trans    &trans    &kp PG_DN  &trans     &trans    &trans
+                           &kp LGUI  &mt LSHIFT TAB  &kp LALT         &trans    &trans    &trans
             >;
 
         };
 
         extra_layer {
             display-name = "Extra Layer";
-//        ╭──────────────┬──────┬──────────┬──────────┬────────┬────────╮                              ╭─────┬─────┬─────┬─────┬──────────┬───────╮
-//        │ POWER TOGGLE │ MUTE │ VOL DOWN │  VOL UP  │ BRI DN │ BRI UP │                              │     │     │     │     │ BT CLEAR │       │
-//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├─────┼─────┼─────┼─────┼──────────┼───────┤
-//        │  POWER ON    │ PREV │   PLAY   │   NEXT   │        │        │                              │     │     │     │     │          │  BT0  │
-//        │              │      │  PAUSE   │          │        │        │                              │     │     │     │     │          │       │
-//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├─────┼─────┼─────┼─────┼──────────┼───────┤
-//        │  POWER OFF   │      │          │          │        │        │                              │     │     │     │     │          │  BT1  │
-//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├─────┼─────┼─────┼─────┼──────────┼───────┤
-//        │  SOFT OFF    │      │          │          │  GAME  │        │                              │     │     │     │     │          │  BT2  │
-//        ╰──────────────┴──────┴──────────┴──────────┼────────┼────────┼─────╮                  ╭─────┼─────┼─────┼─────┴─────┴──────────┴───────╯
-//                                                    │        │        │     │                  │     │     │     │
-//                                                    ╰────────┴────────┴─────╯                  ╰─────┴─────┴─────╯
+//        ╭──────────────┬──────┬──────────┬──────────┬────────┬────────╮                              ╭────────┬─────┬─────┬─────┬──────────┬───────╮
+//        │ POWER TOGGLE │ MUTE │ VOL DOWN │  VOL UP  │ BRI DN │ BRI UP │                              │ STUDIO │     │     │     │ BT CLEAR │       │
+//        │              │      │          │          │        │        │                              │ UNLOCK │     │     │     │          │       │
+//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├────────┼─────┼─────┼─────┼──────────┼───────┤
+//        │  POWER ON    │ PREV │   PLAY   │   NEXT   │        │        │                              │        │     │     │     │          │  BT0  │
+//        │              │      │  PAUSE   │          │        │        │                              │        │     │     │     │          │       │
+//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├────────┼─────┼─────┼─────┼──────────┼───────┤
+//        │  POWER OFF   │      │          │          │        │        │                              │        │     │     │     │          │  BT1  │
+//        ├──────────────┼──────┼──────────┼──────────┼────────┼────────┤                              ├────────┼─────┼─────┼─────┼──────────┼───────┤
+//        │  SOFT OFF    │      │          │          │  GAME  │        │                              │        │     │     │     │          │  BT2  │
+//        ╰──────────────┴──────┴──────────┴──────────┼────────┼────────┼─────╮                  ╭─────┼────────┼─────┼─────┴─────┴──────────┴───────╯
+//                                                    │        │        │     │                  │     │        │     │
+//                                                    ╰────────┴────────┴─────╯                  ╰─────┴────────┴─────╯
             bindings = <
-&ext_power EP_TOG    &kp C_MUTE  &kp C_VOL_DN       &kp C_VOL_UP    &kp C_BRI_DN  &kp C_BRI_UP             &trans      &trans    &trans    &trans   &bt BT_CLR    &trans
+&ext_power EP_TOG    &kp C_MUTE  &kp C_VOL_DN       &kp C_VOL_UP    &kp C_BRI_DN  &kp C_BRI_UP             &studio_unlock &trans &trans    &trans   &bt BT_CLR    &trans
 &ext_power EP_ON     &kp C_PREV  &kp C_PLAY_PAUSE   &kp C_NEXT      &trans  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 0
 &ext_power EP_OFF    &trans      &trans             &trans          &trans  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 1
 &soft_off            &trans      &trans             &trans          &tog 4  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 2
