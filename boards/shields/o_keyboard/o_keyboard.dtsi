@@ -4,8 +4,9 @@
 / {
     keys {
         compatible = "gpio-keys";
-        soft_off_gpio_key: soft_off_gpio_key {
-            gpios = <&gpio0 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+        // Row 2 of the matrix, read as an interrupt while the board is soft off.
+        wakeup_key: wakeup_key {
+            gpios = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
         };
     };
     chosen {
@@ -21,12 +22,10 @@
 
     wakeup_d_key: wakeup_d_key {
         compatible = "zmk,gpio-key-wakeup-trigger";
-        trigger = <&kscan0>;
+        trigger = <&wakeup_key>;
         wakeup-source;
-        extra-gpios
-            = <&xiao_d 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // Row 2
-            , <&xiao_d 3 GPIO_ACTIVE_HIGH>                      // Col 3
-            ;
+        // col2row: drive col 3 active so pressing D pulls row 2 high.
+        extra-gpios = <&xiao_d 3 GPIO_ACTIVE_HIGH>;
     };
 
     default_transform: keymap_transform0 {
