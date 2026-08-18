@@ -1,0 +1,203 @@
+#pragma once
+
+// Macros for the programming layer (layer 6), held on A in o_keyboard.keymap.
+// Kept separate so the keymap file stays readable. Include this after
+// behaviors.dtsi, since the macros reference &kp from it. keymap_norwegian.h is
+// pulled in below because every macro spells its characters with NO_* keycodes,
+// so the intended character lands on a Norwegian host layout.
+
+#include "keymap_norwegian.h"
+
+/ {
+    macros {
+        // ── Programming layer (layer 6) ───────────────────────────────────────
+        // Neovim/LazyVim normal-mode sequences. The Norwegian keycodes are used
+        // throughout so each macro sends the intended character on a NO host
+        // layout. Macros that end in insert mode leave the cursor where you type
+        // next; the rest return to normal mode.
+        pg_line_below: pg_line_below {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_O &kp ESC &kp NO_K>;
+        };
+        pg_line_above: pg_line_above {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp LS(NO_O) &kp ESC &kp NO_J>;
+        };
+        pg_dup_line: pg_dup_line {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_Y &kp NO_Y &kp NO_P>;
+        };
+        pg_move_down: pg_move_down {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_D &kp NO_D &kp NO_P>;
+        };
+        pg_move_up: pg_move_up {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_D &kp NO_D &kp NO_K &kp LS(NO_P)>;
+        };
+        pg_change_word: pg_change_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_C &kp NO_I &kp NO_W>;
+        };
+        pg_yank_word: pg_yank_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_Y &kp NO_I &kp NO_W>;
+        };
+        // Replaces the word under the cursor with the last yank (register 0),
+        // so it pairs with pg_yank_word: grab a word here, overwrite one there.
+        pg_paste_word: pg_paste_word {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_C &kp NO_I &kp NO_W &kp LC(NO_R) &kp NO_0 &kp ESC>;
+        };
+        pg_change_paren: pg_change_paren {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_C &kp NO_I &kp NO_LPRN>;
+        };
+        pg_change_quote: pg_change_quote {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_C &kp NO_I &kp NO_DQUO>;
+        };
+        pg_change_brace: pg_change_brace {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_C &kp NO_I &kp NO_LCBR>;
+        };
+        pg_comment: pg_comment {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_G &kp NO_C &kp NO_C>;
+        };
+        pg_reindent: pg_reindent {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_G &kp NO_G &kp NO_EQL &kp LS(NO_G)>;
+        };
+        // :wall rather than :w, so it writes every modified buffer at once.
+        pg_save: pg_save {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_COLN &kp NO_W &kp NO_A &kp NO_L &kp NO_L &kp RET>;
+        };
+        // LazyVim <leader>, opens the buffer switcher with the previous buffer
+        // already on top, so the trailing Enter just takes it. The wait is there
+        // because the picker has to render first; raise it if the Enter lands
+        // before the list is populated.
+        pg_prev_buffer: pg_prev_buffer {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings
+                = <&macro_tap &kp SPACE>
+                , <&macro_wait_time 400>
+                , <&macro_tap &kp NO_COMM>
+                , <&macro_tap &kp RET>;
+        };
+        pg_replace_all: pg_replace_all {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_COLN &kp NO_PERC &kp NO_S &kp NO_SLSH>;
+        };
+        pg_arrow: pg_arrow {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_EQL &kp NO_RABK>;
+        };
+        pg_neq: pg_neq {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_EXLM &kp NO_EQL &kp NO_EQL>;
+        };
+        // Pair macros type both halves then step left. mini.pairs types over the
+        // closing character rather than doubling it, so these land correctly
+        // whether autopairing is on or off.
+        pg_parens: pg_parens {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_LPRN &kp NO_RPRN &kp LEFT>;
+        };
+        pg_braces: pg_braces {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_LCBR &kp NO_RCBR &kp LEFT>;
+        };
+        pg_quotes: pg_quotes {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_DQUO &kp NO_DQUO &kp LEFT>;
+        };
+        pg_interp: pg_interp {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_DLR &kp NO_LCBR &kp NO_RCBR &kp LEFT>;
+        };
+        // Gitsigns hunk navigation. Worth a key even at two keystrokes, because
+        // [ and ] are AltGr+8 and AltGr+9 on the Norwegian layout.
+        pg_prev_hunk: pg_prev_hunk {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_LBRC &kp NO_H>;
+        };
+        pg_next_hunk: pg_next_hunk {
+            compatible = "zmk,behavior-macro";
+            #binding-cells = <0>;
+            wait-ms = <20>;
+            tap-ms = <20>;
+            bindings = <&kp NO_RBRC &kp NO_H>;
+        };
+    };
+};
