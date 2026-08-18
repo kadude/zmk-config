@@ -11,7 +11,8 @@
 / {
     macros {
         // ── Programming layer (layer 6) ───────────────────────────────────────
-        // Neovim/LazyVim normal-mode sequences. The Norwegian keycodes are used
+        // Neovim/LazyVim normal-mode sequences. The vi* ones only select the text
+        // object and leave you in visual mode, so the verb is yours to choose. The Norwegian keycodes are used
         // throughout so each macro sends the intended character on a NO host
         // layout. Macros that end in insert mode leave the cursor where you type
         // next; the rest return to normal mode.
@@ -50,12 +51,12 @@
             tap-ms = <20>;
             bindings = <&kp NO_D &kp NO_D &kp NO_K &kp LS(NO_P)>;
         };
-        pg_change_word: pg_change_word {
+        pg_sel_word: pg_sel_word {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_C &kp NO_I &kp NO_W>;
+            bindings = <&kp NO_V &kp NO_I &kp NO_W>;
         };
         pg_yank_word: pg_yank_word {
             compatible = "zmk,behavior-macro";
@@ -64,35 +65,37 @@
             tap-ms = <20>;
             bindings = <&kp NO_Y &kp NO_I &kp NO_W>;
         };
-        // Replaces the word under the cursor with the last yank (register 0),
-        // so it pairs with pg_yank_word: grab a word here, overwrite one there.
+        // Selects the word under the cursor and overwrites it from the unnamed
+        // register. Visual-mode P, unlike p, does not overwrite that register
+        // with the text it replaced (:h v_P), so one pg_yank_word feeds any
+        // number of these. Stays in normal/visual mode throughout.
         pg_paste_word: pg_paste_word {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_C &kp NO_I &kp NO_W &kp LC(NO_R) &kp NO_0 &kp ESC>;
+            bindings = <&kp NO_V &kp NO_I &kp NO_W &kp LS(NO_P)>;
         };
-        pg_change_paren: pg_change_paren {
+        pg_sel_paren: pg_sel_paren {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_C &kp NO_I &kp NO_LPRN>;
+            bindings = <&kp NO_V &kp NO_I &kp NO_LPRN>;
         };
-        pg_change_quote: pg_change_quote {
+        pg_sel_quote: pg_sel_quote {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_C &kp NO_I &kp NO_DQUO>;
+            bindings = <&kp NO_V &kp NO_I &kp NO_DQUO>;
         };
-        pg_change_brace: pg_change_brace {
+        pg_sel_brace: pg_sel_brace {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_C &kp NO_I &kp NO_LCBR>;
+            bindings = <&kp NO_V &kp NO_I &kp NO_LCBR>;
         };
         pg_comment: pg_comment {
             compatible = "zmk,behavior-macro";
@@ -101,12 +104,15 @@
             tap-ms = <20>;
             bindings = <&kp NO_G &kp NO_C &kp NO_C>;
         };
-        pg_reindent: pg_reindent {
+        // Searches the file for whatever is in the unnamed register: / opens the
+        // search prompt, <C-r>" pastes the register into it, Enter accepts. Pairs
+        // with pg_yank_word — grab a word once, then jump through its uses.
+        pg_search_reg: pg_search_reg {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_G &kp NO_G &kp NO_EQL &kp LS(NO_G)>;
+            bindings = <&kp NO_SLSH &kp LC(NO_R) &kp NO_DQUO &kp RET>;
         };
         // :wall rather than :w, so it writes every modified buffer at once.
         pg_save: pg_save {
@@ -131,12 +137,15 @@
                 , <&macro_tap &kp NO_COMM>
                 , <&macro_tap &kp RET>;
         };
-        pg_replace_all: pg_replace_all {
+        // mini.surround add, applied to the inner word: gsa is LazyVim's mapping
+        // and iw the text object, after which mini.surround waits for one more
+        // character and wraps the word in it. Needs the mini-surround extra.
+        pg_surround_word: pg_surround_word {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <20>;
             tap-ms = <20>;
-            bindings = <&kp NO_COLN &kp NO_PERC &kp NO_S &kp NO_SLSH>;
+            bindings = <&kp NO_G &kp NO_S &kp NO_A &kp NO_I &kp NO_W>;
         };
         pg_arrow: pg_arrow {
             compatible = "zmk,behavior-macro";
