@@ -259,25 +259,25 @@
 //        ╭─────────┬─────┬─────┬─────┬─────┬─────╮                              ╭──────┬──────┬──────┬──────┬──────┬───────╮
 //        │         │     │     │     │     │     │                              │  =>  │ !==  │  ()  │  {}  │  ""  │  ${}  │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
-//        │         │     │     │     │     │     │                              │ yyp  │ ddp  │ ddkP │ vi(  │ vi"  │ /⌃r"⏎ │
-//        │         │     │     │     │     │     │                              │ dupe │ line │ line │      │      │ search│
-//        │         │     │     │     │     │     │                              │ line │ down │  up  │      │      │  reg  │
+//        │         │     │     │     │     │     │                              │ yiw  │ ddp  │ ddkP │ vi(  │ vi"  │  yyp  │
+//        │         │     │     │     │     │     │                              │ yank │ line │ line │      │      │ dupe  │
+//        │         │     │     │     │     │     │                              │ word │ down │  up  │      │      │ line  │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
 //        │         │HOLD │     │     │     │     │                              │ viw  │ o␛k  │ O␛j  │ ␣,⏎  │ gcc  │ :wall⏎│
 //        │         │ ME  │     │     │     │     │                              │ sel  │blank │blank │ prev │ comm │ save  │
 //        │         │     │     │     │     │     │                              │ word │below │above │buffer│ line │  all  │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
-//        │         │     │     │     │     │     │                              │ yiw  │ viwP │ gsaiw│ vi{  │  [h  │  ]h   │
-//        │         │     │     │     │     │     │                              │ yank │ paste│surrnd│      │ prev │ next  │
-//        │         │     │     │     │     │     │                              │ word │ over │ word │      │ hunk │ hunk  │
+//        │         │     │     │     │     │     │                              │ /⌃r"⏎│ viwP │ gsaiw│ vi{  │  [h  │  ]h   │
+//        │         │     │     │     │     │     │                              │search│ paste│surrnd│      │ prev │ next  │
+//        │         │     │     │     │     │     │                              │ reg  │ over │ word │      │ hunk │ hunk  │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼──────┼──────┼──────┴──────┴──────┴───────╯
 //                                    │     │SHIFT│     │                  │     │      │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴──────┴──────╯
             bindings = <
-&trans &trans &trans &trans &trans &trans          &pg_arrow     &pg_neq        &pg_parens        &pg_braces      &pg_quotes    &pg_interp
-&trans &trans &trans &trans &trans &trans          &pg_dup_line  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_search_reg
-&trans &trans &trans &trans &trans &trans          &pg_sel_word  &pg_line_below &pg_line_above    &pg_prev_buffer &pg_comment   &pg_save
-&trans &trans &trans &trans &trans &trans          &pg_yank_word &pg_paste_word &pg_surround_word &pg_sel_brace   &pg_prev_hunk &pg_next_hunk
+&trans &trans &trans &trans &trans &trans          &pg_arrow      &pg_neq        &pg_parens        &pg_braces      &pg_quotes    &pg_interp
+&trans &trans &trans &trans &trans &trans          &pg_yank_word  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_dup_line
+&trans &trans &trans &trans &trans &trans          &pg_sel_word   &pg_line_below &pg_line_above    &pg_prev_buffer &pg_comment   &pg_save
+&trans &trans &trans &trans &trans &trans          &pg_search_reg &pg_paste_word &pg_surround_word &pg_sel_brace   &pg_prev_hunk &pg_next_hunk
                             &trans &trans &trans          &trans &trans &trans
             >;
 
