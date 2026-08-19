@@ -25,3 +25,7 @@ include:
     cmake-args: -DCONFIG_ZMK_STUDIO=y
   - board: seeeduino_xiao_ble
     shield: o_keyboard_right
+  # Wipes the settings partition (ZMK Studio keymap overrides + BT bonds).
+  # Flash to BOTH halves, then flash the normal firmware again.
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
