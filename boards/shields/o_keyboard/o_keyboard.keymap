@@ -72,13 +72,14 @@
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
         };
-        // Same guard rails as mod_tap, but the hold enters a layer. Used for the
+        // Same guard rails as mod_tap, but the hold enters a layer, and the key
+        // must be held a half second before the layer arms. Used for the
         // programming layer on A so fast words like "and" or "as" cannot trip it.
         layer_tap: layer_tap {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
-            tapping-term-ms = <200>;
+            tapping-term-ms = <500>;
             require-prior-idle-ms = <150>;
             bindings = <&mo>, <&kp>;
         };
@@ -259,25 +260,25 @@
 //        ╭─────────┬─────┬─────┬─────┬─────┬─────╮                              ╭──────┬──────┬──────┬──────┬──────┬───────╮
 //        │         │     │     │     │     │     │                              │  =>  │ !==  │  ()  │  {}  │  ""  │  ${}  │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
-//        │         │     │     │     │     │     │                              │ yiw  │ ddp  │ ddkP │ vi(  │ vi"  │  yyp  │
-//        │         │     │     │     │     │     │                              │ yank │ line │ line │      │      │ dupe  │
-//        │         │     │     │     │     │     │                              │ word │ down │  up  │      │      │ line  │
+//        │         │     │     │     │     │     │                              │ yiw  │ ddp  │ ddkP │ vi(  │ vi"  │  vi{  │
+//        │         │     │     │     │     │     │                              │ yank │ line │ line │      │      │       │
+//        │         │     │     │     │     │     │                              │ word │ down │  up  │      │      │       │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
 //        │         │HOLD │     │     │     │     │                              │ viw  │ o␛k  │ O␛j  │ ␣,⏎  │ gcc  │ :wall⏎│
 //        │         │ ME  │     │     │     │     │                              │ sel  │blank │blank │ prev │ comm │ save  │
 //        │         │     │     │     │     │     │                              │ word │below │above │buffer│ line │  all  │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├──────┼──────┼──────┼──────┼──────┼───────┤
-//        │         │     │     │     │     │     │                              │ /⌃r"⏎│ viwP │ gsaiw│ vi{  │  [h  │  ]h   │
-//        │         │     │     │     │     │     │                              │search│ paste│surrnd│      │ prev │ next  │
-//        │         │     │     │     │     │     │                              │ reg  │ over │ word │      │ hunk │ hunk  │
+//        │         │     │     │     │     │     │                              │ /⌃r"⏎│ viwP │ gsaiw│ yyp  │  [h  │  ]h   │
+//        │         │     │     │     │     │     │                              │search│ paste│surrnd│ dupe │ prev │ next  │
+//        │         │     │     │     │     │     │                              │ reg  │ over │ word │ line │ hunk │ hunk  │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼──────┼──────┼──────┴──────┴──────┴───────╯
 //                                    │     │SHIFT│     │                  │     │      │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴──────┴──────╯
             bindings = <
 &trans &trans &trans &trans &trans &trans          &pg_arrow      &pg_neq        &pg_parens        &pg_braces      &pg_quotes    &pg_interp
-&trans &trans &trans &trans &trans &trans          &pg_yank_word  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_dup_line
+&trans &trans &trans &trans &trans &trans          &pg_yank_word  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_sel_brace
 &trans &trans &trans &trans &trans &trans          &pg_sel_word   &pg_line_below &pg_line_above    &pg_prev_buffer &pg_comment   &pg_save
-&trans &trans &trans &trans &trans &trans          &pg_search_reg &pg_paste_word &pg_surround_word &pg_sel_brace   &pg_prev_hunk &pg_next_hunk
+&trans &trans &trans &trans &trans &trans          &pg_search_reg &pg_paste_word &pg_surround_word &pg_dup_line    &pg_prev_hunk &pg_next_hunk
                             &trans &trans &trans          &trans &trans &trans
             >;
 
