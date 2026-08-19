@@ -63,10 +63,16 @@
     };
 
     behaviors {
+        // NOTE: node names here must not match ZMK's built-in behavior nodes
+        // (mod_tap, layer_tap, ...). Devicetree merges same-path nodes, so
+        // reusing a name silently rewrites &mt / &lt rather than defining a new
+        // behavior. The label left of the colon is irrelevant; the node name is
+        // what collides.
+        //
         // Hold-tap for letter keys: the hold only resolves on the timer (never on
         // an overlapping keypress) and is suppressed right after another key, so
         // rolls and normal typing always produce the letter.
-        mod_tap: mod_tap {
+        letter_mod: letter_mod {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -74,10 +80,10 @@
             require-prior-idle-ms = <150>;
             bindings = <&kp>, <&kp>;
         };
-        // Same guard rails as mod_tap, but the hold enters a layer, and the key
+        // Same guard rails as letter_mod, but the hold enters a layer, and the key
         // must be held a half second before the layer arms. Used for the
         // programming layer on A so fast words like "and" or "as" cannot trip it.
-        layer_tap: layer_tap {
+        prog_layer: prog_layer {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -128,11 +134,11 @@
 //                                    │ GUI │SHIFT│     │                  │     │     │     │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴─────╯
             bindings = <
-&kp ESC   &kp NO_1 &kp NO_2 &kp NO_3   &kp NO_4   &kp NO_5                    &kp NO_6 &kp NO_7   &kp NO_8            &kp NO_9     &kp NO_0       &mo 3
-&kp TAB   &kp NO_Q  &kp NO_W  &kp NO_E    &kp NO_R    &kp NO_T                     &kp NO_Y  &kp NO_U    &kp NO_I             &kp NO_O      &kp NO_P        &kp NO_A_RING
-&kp LSHFT &layer_tap 6 NO_A  &kp NO_S  &kp NO_D    &kp NO_F    &kp NO_G                     &kp NO_H  &kp NO_J    &kp NO_K             &kp NO_L      &kp NO_O_SLASH &kp NO_AE
-&kp LCTRL &mod_tap LS(LC(LGUI)) NO_Z  &kp NO_X  &kp NO_C    &kp NO_V    &kp NO_B                   &kp NO_N  &kp NO_M    &comma_semicolon  &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
-                                    &lt 1 LGUI &mt LSHIFT RET &kp LALT    &kp BACKSPACE &kp SPACE  &mo 2
+&kp ESC   &kp NO_1                      &kp NO_2 &kp NO_3   &kp NO_4       &kp NO_5          &kp NO_6      &kp NO_7  &kp NO_8         &kp NO_9   &kp NO_0       &mo 3
+&kp TAB   &kp NO_Q                      &kp NO_W &kp NO_E   &kp NO_R       &kp NO_T          &kp NO_Y      &kp NO_U  &kp NO_I         &kp NO_O   &kp NO_P       &kp NO_A_RING
+&kp LSHFT &prog_layer 6 NO_A            &kp NO_S &kp NO_D   &kp NO_F       &kp NO_G          &kp NO_H      &kp NO_J  &kp NO_K         &kp NO_L   &kp NO_O_SLASH &kp NO_AE
+&kp LCTRL &letter_mod LS(LC(LGUI)) NO_Z &kp NO_X &kp NO_C   &kp NO_V       &kp NO_B          &kp NO_N      &kp NO_M  &comma_semicolon &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
+                                                 &lt 1 LGUI &mt LSHIFT RET &kp LALT          &kp BACKSPACE &kp SPACE &mo 2
             >;
 
         };
@@ -152,11 +158,11 @@
 //                                      │      │        │  GUI  │                │     │     │     │
 //                                      ╰──────┴────────┴───────╯                ╰─────┴─────┴─────╯
             bindings = <
-&kp NO_PIPE  &kp NO_EXLM    &kp NO_AT   &kp NO_HASH  &kp NO_DLR   &kp NO_PERC                     &kp NO_AMPR  &kp NO_SLSH  &kp NO_LPRN  &kp NO_RPRN  &kp NO_EQL   &tilde
-&kp NO_QUES  &kp NO_BSLS    &trans      &trans       &trans       &trans                          &kp NO_PIPE  &kp NO_EXLM  &kp NO_LABK  &kp NO_RABK  &circumflex  &kp NO_QUOT
-&trans       &trans         &trans      &trans       &trans       &trans                          &kp NO_PLUS  &kp NO_MINS  &kp NO_LCBR  &kp NO_RCBR  &grave       &kp NO_ASTR
-&trans       &trans         &trans      &trans       &trans       &soft_off                       &trans       &kp NO_UNDS  &kp NO_LBRC  &kp NO_RBRC  &trans       &kp RET
-                                                     &trans       &kp LG(NO_L)    &kp LGUI    &kp DELETE &kp SPACE  &kp LGUI
+&kp NO_PIPE &kp NO_EXLM &kp NO_AT &kp NO_HASH &kp NO_DLR   &kp NO_PERC          &kp NO_AMPR &kp NO_SLSH &kp NO_LPRN &kp NO_RPRN &kp NO_EQL  &tilde
+&kp NO_QUES &kp NO_BSLS &trans    &trans      &trans       &trans               &kp NO_PIPE &kp NO_EXLM &kp NO_LABK &kp NO_RABK &circumflex &kp NO_QUOT
+&trans      &trans      &trans    &trans      &trans       &trans               &kp NO_PLUS &kp NO_MINS &kp NO_LCBR &kp NO_RCBR &grave      &kp NO_ASTR
+&trans      &trans      &trans    &trans      &trans       &soft_off            &trans      &kp NO_UNDS &kp NO_LBRC &kp NO_RBRC &trans      &kp RET
+                                  &trans      &kp LG(NO_L) &kp LGUI             &kp DELETE  &kp SPACE   &kp LGUI
             >;
 
         };
@@ -176,11 +182,11 @@
 //                                    │     │SHIFT│     │                  │     │     │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴──────╯
             bindings = <
-&kp F1     &kp F2  &kp F3  &kp F4  &kp F5  &kp F6                                 &kp F7    &kp F8    &kp F9     &kp F10    &kp F11   &kp F12
-&trans     &trans  &trans  &trans  &trans  &trans                                 &kp INS   &kp HOME  &kp PG_UP  &trans     &trans    &trans
-&trans     &trans  &trans  &trans  &trans  &trans                                 &kp LEFT  &kp DOWN  &kp UP     &kp RIGHT  &kp END   &trans
-&trans     &trans  &trans  &trans  &trans  &trans                                 &trans    &trans    &kp PG_DN  &trans     &trans    &trans
-                           &kp LGUI  &mt LSHIFT TAB  &kp LALT         &trans    &trans    &trans
+&kp F1 &kp F2 &kp F3 &kp F4   &kp F5         &kp F6            &kp F7   &kp F8   &kp F9    &kp F10   &kp F11 &kp F12
+&trans &trans &trans &trans   &trans         &trans            &kp INS  &kp HOME &kp PG_UP &trans    &trans  &trans
+&trans &trans &trans &trans   &trans         &trans            &kp LEFT &kp DOWN &kp UP    &kp RIGHT &kp END &trans
+&trans &trans &trans &trans   &trans         &trans            &trans   &trans   &kp PG_DN &trans    &trans  &trans
+                     &kp LGUI &mt LSHIFT TAB &kp LALT          &trans   &trans   &trans
             >;
 
         };
@@ -201,11 +207,11 @@
 //                                                    │        │        │     │                  │     │        │     │
 //                                                    ╰────────┴────────┴─────╯                  ╰─────┴────────┴─────╯
             bindings = <
-&ext_power EP_TOG    &kp C_MUTE  &kp C_VOL_DN       &kp C_VOL_UP    &kp C_BRI_DN  &kp C_BRI_UP             &studio_unlock &trans &trans    &trans   &bt BT_CLR    &trans
-&ext_power EP_ON     &kp C_PREV  &kp C_PLAY_PAUSE   &kp C_NEXT      &trans  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 0
-&ext_power EP_OFF    &trans      &trans             &trans          &trans  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 1
-&soft_off            &trans      &trans             &trans          &tog 4  &trans                       &trans      &trans    &trans    &trans   &trans            &bt BT_SEL 2
-                                                           &trans     &trans      &trans           &trans    &trans      &trans
+&ext_power EP_TOG &kp C_MUTE &kp C_VOL_DN     &kp C_VOL_UP &kp C_BRI_DN &kp C_BRI_UP          &studio_unlock &trans &trans &trans &bt BT_CLR &trans
+&ext_power EP_ON  &kp C_PREV &kp C_PLAY_PAUSE &kp C_NEXT   &trans       &trans                &trans         &trans &trans &trans &trans     &bt BT_SEL 0
+&ext_power EP_OFF &trans     &trans           &trans       &trans       &trans                &trans         &trans &trans &trans &trans     &bt BT_SEL 1
+&soft_off         &trans     &trans           &trans       &tog 4       &trans                &trans         &trans &trans &trans &trans     &bt BT_SEL 2
+                                              &trans       &trans       &trans                &trans         &trans &trans
             >;
 
         };
@@ -225,11 +231,11 @@
 //                                    │ SPC │     │ ALT │                  │     │     │     │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴─────╯
             bindings = <
-&kp ESC   &kp NO_1  &kp NO_2  &kp NO_3  &kp NO_4  &kp NO_5                  &trans &trans &trans &trans &trans &trans
-&kp TAB   &kp NO_A  &kp NO_W  &kp NO_E  &kp NO_R  &kp NO_T                  &trans &trans &trans &trans &trans &trans
-&kp LSHFT &kp NO_Q  &kp NO_S  &kp NO_D  &kp NO_F  &kp NO_G                  &trans &trans &trans &trans &trans &trans
-&kp LCTRL &kp NO_Z  &kp NO_X  &kp NO_C  &kp NO_V  &kp NO_B                  &trans &trans &trans &trans &trans &trans
-                               &kp SPACE  &kp SPACE  &kp LALT   &trans &trans &trans
+&kp ESC   &kp NO_1 &kp NO_2 &kp NO_3  &kp NO_4  &kp NO_5          &trans &trans &trans &trans &trans &trans
+&kp TAB   &kp NO_A &kp NO_W &kp NO_E  &kp NO_R  &kp NO_T          &trans &trans &trans &trans &trans &trans
+&kp LSHFT &kp NO_Q &kp NO_S &kp NO_D  &kp NO_F  &kp NO_G          &trans &trans &trans &trans &trans &trans
+&kp LCTRL &kp NO_Z &kp NO_X &kp NO_C  &kp NO_V  &kp NO_B          &trans &trans &trans &trans &trans &trans
+                            &kp SPACE &kp SPACE &kp LALT          &trans &trans &trans
             >;
 
         };
@@ -248,11 +254,11 @@
 //                                    │     │     │     │                  │     │     │     │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴─────╯
             bindings = <
-&none    &none &none &none  &none  &none                       &none    &none &none &none  &none  &mo 3
-&none    &none &none &none  &none  &none                       &none    &none &none &none  &none  &none
-&none    &none &none &none  &none  &none                       &none    &none &none &none  &none  &none
-&none    &none &none &none  &none  &none                       &none    &none &none &none  &none  &none
-                                &none  &none  &none    &none  &none  &none
+&none &none &none &none &none &none          &none &none &none &none &none &mo 3
+&none &none &none &none &none &none          &none &none &none &none &none &none
+&none &none &none &none &none &none          &none &none &none &none &none &none
+&none &none &none &none &none &none          &none &none &none &none &none &none
+                  &none &none &none          &none &none &none
             >;
 
         };
@@ -281,7 +287,7 @@
 &trans &trans &trans &trans &trans &trans          &pg_yank_word  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_sel_brace
 &trans &trans &trans &trans &trans &trans          &pg_sel_word   &pg_line_below &pg_line_above    &pg_prev_buffer &pg_comment   &pg_save
 &trans &trans &trans &trans &trans &trans          &pg_search_reg &pg_paste_word &pg_surround_word &pg_dup_line    &pg_prev_hunk &pg_next_hunk
-                            &trans &trans &trans          &trans &trans &trans
+                     &trans &trans &trans          &trans         &trans         &trans
             >;
 
         };
