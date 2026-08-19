@@ -15,16 +15,18 @@
     macros {
         // On the Norwegian layout ~ ^ ` are dead keys: they print nothing until
         // the next keystroke, so these macros tap the accent and then space.
-        // Tilde sits on AltGr+¨; Shift+AltGr+¨ is the caron (ˇ) instead, so any
-        // held shift is released first.
+        // Tilde sits on AltGr+¨. AltGr is pressed and released explicitly around
+        // the key rather than relying on the RA() implicit modifier.
         tilde: tilde {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <30>;
             tap-ms = <30>;
             bindings
-                = <&macro_release &kp LSHFT &kp RSHFT>
-                , <&macro_tap &kp NO_TILD &kp SPACE>;
+                = <&macro_press &kp RALT>
+                , <&macro_tap &kp NO_DIAE>
+                , <&macro_release &kp RALT>
+                , <&macro_tap &kp SPACE>;
         };
         circumflex: circumflex {
             compatible = "zmk,behavior-macro";
