@@ -15,18 +15,16 @@
     macros {
         // On the Norwegian layout ~ ^ ` are dead keys: they print nothing until
         // the next keystroke, so these macros tap the accent and then space.
-        // Tilde sits on AltGr+¨. AltGr is pressed and released explicitly around
-        // the key rather than relying on the RA() implicit modifier.
+        // Tilde sits on AltGr+¨. The ¨ key is physically the US "]" key, so in
+        // raw ZMK keycodes that is RA(RBKT) -- RBKT, not RBRC, because ZMK's
+        // RBRC means RIGHT_BRACE and carries an implicit shift (Shift+AltGr+¨
+        // is the caron, ˇ).
         tilde: tilde {
             compatible = "zmk,behavior-macro";
             #binding-cells = <0>;
             wait-ms = <30>;
             tap-ms = <30>;
-            bindings
-                = <&macro_press &kp RALT>
-                , <&macro_tap &kp NO_DIAE>
-                , <&macro_release &kp RALT>
-                , <&macro_tap &kp SPACE>;
+            bindings = <&kp RA(RBKT) &kp SPACE>;
         };
         circumflex: circumflex {
             compatible = "zmk,behavior-macro";
@@ -280,7 +278,7 @@
 //        │         │     │     │     │     │     │                              │search│ paste│surrnd│ dupe │ prev │ next  │
 //        │         │     │     │     │     │     │                              │ reg  │ over │ word │ line │ hunk │ hunk  │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼──────┼──────┼──────┴──────┴──────┴───────╯
-//                                    │     │SHIFT│     │                  │     │      │      │
+//                                    │     │     │     │                  │     │      │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴──────┴──────╯
             bindings = <
 &trans &trans &trans &trans &trans &trans          &pg_arrow      &pg_neq        &pg_parens        &pg_braces      &pg_quotes    &pg_interp
