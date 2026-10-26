@@ -319,7 +319,7 @@
             bindings = <
 &trans      &kp LG(NO_1)      &kp LG(NO_2)    &kp LG(NO_3) &kp LG(NO_4)    &kp LG(NO_5)            &kp LG(NO_6)   &kp LG(NO_7)     &kp LG(NO_8)     &kp LG(NO_9) &kp LG(NO_0) &none
 &kp LG(TAB) &kp LG(NO_A)      &kp OMOD(NO_H)  &kp LG(UP)   &kp OMOD(NO_L)  &kp LG(SPACE)           &kp HOME       &kp PG_UP        &kp PG_DN        &kp END      &none        &none
-&trans      &kp OMOD(NO_DOT)  &kp LG(LEFT)    &kp LG(DOWN) &kp LG(RIGHT)   &kp OMOD(NO_MINS)       &kp OMOD(NO_V) &kp LC(LS(NO_C)) &kp LC(LS(NO_V)) &none        &trans       &none
+&trans      &kp OMOD(NO_DOT)  &kp LG(LEFT)    &kp LG(DOWN) &kp LG(RIGHT)   &kp OMOD(NO_MINS)       &kp OMOD(NO_V) &kp K_COPY       &kp K_PASTE &none        &trans       &none
 &trans      &kp OMOD(LEFT)    &kp OMOD(DOWN)  &kp OMOD(UP) &kp OMOD(RIGHT) &kp OMOD(NO_N)          &none          &kp LEFT         &kp RIGHT        &none        &none        &none
                                               &kp ESC      &kp LSHFT       &trans                  &trans         &kp LSHFT        &kp LCTRL
             >;
