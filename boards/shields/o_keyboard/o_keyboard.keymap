@@ -1,10 +1,12 @@
-#include <behaviors.dtsi>
 #include <behaviors/unicode.dtsi> // For ÆØÅ https://github.com/urob/zmk-unicode?tab=readme-ov-file
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
 #include "keymap_norwegian.h"
 #include "programming_macros.dtsi"
+
+// Sway's $omod (Super+Shift+Ctrl), used by the navigation layer.
+#define OMOD(key) LS(LC(LG(key)))
 
 
 &soft_off {
@@ -80,8 +82,9 @@
         };
         // Same guard rails as letter_mod, but the hold enters a layer, and the key
         // must be held a half second before the layer arms. Used for the
-        // programming layer on A so fast words like "and" or "as" cannot trip it.
-        prog_layer: prog_layer {
+        // programming layer on A and the navigation layer on Ø, so fast typing
+        // on those common letters cannot trip them.
+        slow_layer: slow_layer {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
             flavor = "tap-preferred";
@@ -121,7 +124,7 @@
 //        │   TAB   │  Q  │  W  │  E  │  R  │  T  │                              │  Y  │  U  │  I  │  O  │  P  │   Å   │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
 //        │  SHIFT  │  A  │  S  │  D  │  F  │  G  │                              │  H  │  J  │  K  │  L  │  Ø  │   Æ   │
-//        │         │PROG │     │     │     │     │                              │     │     │     │     │     │       │
+//        │         │PROG │     │     │     │     │                              │     │     │     │     │ NAV │       │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
 //        │  CTRL   │  Z  │  X  │  C  │  V  │  B  │                              │  N  │  M  │  ,; │  .: │  -  │ ENTER │
 //        │         │CTRL+│     │     │     │     │                              │     │     │     │     │     │CTRL+  │
@@ -134,7 +137,7 @@
             bindings = <
 &kp ESC   &kp NO_1                      &kp NO_2 &kp NO_3   &kp NO_4       &kp NO_5          &kp NO_6      &kp NO_7  &kp NO_8         &kp NO_9   &kp NO_0       &mo 3
 &kp TAB   &kp NO_Q                      &kp NO_W &kp NO_E   &kp NO_R       &kp NO_T          &kp NO_Y      &kp NO_U  &kp NO_I         &kp NO_O   &kp NO_P       &kp NO_A_RING
-&kp LSHFT &prog_layer 6 NO_A            &kp NO_S &kp NO_D   &kp NO_F       &kp NO_G          &kp NO_H      &kp NO_J  &kp NO_K         &kp NO_L   &kp NO_O_SLASH &kp NO_AE
+&kp LSHFT &slow_layer 6 NO_A            &kp NO_S &kp NO_D   &kp NO_F       &kp NO_G          &kp NO_H      &kp NO_J  &kp NO_K         &kp NO_L   &slow_layer 7 NO_O_SLASH &kp NO_AE
 &kp LCTRL &letter_mod LS(LC(LGUI)) NO_Z &kp NO_X &kp NO_C   &kp NO_V       &kp NO_B          &kp NO_N      &kp NO_M  &comma_semicolon &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
                                                  &lt 1 LGUI &kp LSHIFT     &kp LALT          &kp BACKSPACE &kp SPACE &mo 2
             >;
@@ -278,14 +281,46 @@
 //        │         │     │     │     │     │     │                              │search│ paste│surrnd│ dupe │ prev │ next  │
 //        │         │     │     │     │     │     │                              │ reg  │ over │ word │ line │ hunk │ hunk  │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼──────┼──────┼──────┴──────┴──────┴───────╯
-//                                    │     │ENTER│     │                  │     │      │      │
+//                                    │ ESC │ENTER│     │                  │     │      │      │
 //                                    ╰─────┴─────┴─────╯                  ╰─────┴──────┴──────╯
             bindings = <
 &trans &trans &trans &trans &trans &trans          &pg_arrow      &pg_neq        &pg_parens        &pg_braces      &pg_quotes    &pg_interp
 &trans &trans &trans &trans &trans &trans          &pg_yank_word  &pg_move_down  &pg_move_up       &pg_sel_paren   &pg_sel_quote &pg_sel_brace
 &trans &trans &trans &trans &trans &trans          &pg_sel_word   &pg_line_below &pg_line_above    &pg_prev_buffer &pg_comment   &pg_save
 &trans &trans &trans &trans &trans &trans          &pg_search_reg &pg_paste_word &pg_surround_word &pg_dup_line    &pg_prev_hunk &pg_next_hunk
-                     &trans &kp RET &trans          &trans         &trans         &trans
+                     &kp ESC &kp RET &trans          &trans         &trans         &trans
+            >;
+
+        };
+
+        navigation_layer {
+            display-name = "Navigation Layer";
+// Sway window manager navigation. The Shift and Alt thumbs turn these into
+// sway's "move" variants:
+//   + SHIFT: move the window instead of focusing it, send the window to
+//            workspace N instead of switching, and FLOAT toggles floating.
+//   + ALT:   WS PREV / WS NEXT carry the window along to that workspace.
+// The right half adds text editing; with Shift, HOME/END/PG_UP/PG_DN select.
+//        ╭─────────┬─────┬─────┬─────┬─────┬─────╮                              ╭─────┬─────┬─────┬─────┬─────┬───────╮
+//        │         │ WS1 │ WS2 │ WS3 │ WS4 │ WS5 │                              │ WS6 │ WS7 │ WS8 │ WS9 │WS10 │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │ WINDOW  │FOCUS│ WS  │FOCUS│ WS  │FOCUS│                              │     │     │     │     │     │       │
+//        │SWITCHER │PRNT │PREV │  ↑  │NEXT │FLOAT│                              │HOME │PG_UP│PG_DN│ END │     │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │  SHIFT  │SCRCH│FOCUS│FOCUS│FOCUS│SCRCH│                              │CLIP │COPY │PASTE│     │HOLD │       │
+//        │         │SHOW │  ←  │  ↓  │  →  │STASH│                              │HIST │     │     │     │ ME  │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │         │WS TO│WS TO│WS TO│WS TO│ NEW │                              │     │  ←  │  →  │     │     │       │
+//        │         │OUT ←│OUT ↓│OUT ↑│OUT →│ WS  │                              │     │     │     │     │     │       │
+//        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼─────┼─────┼─────┴─────┴─────┴───────╯
+//                                    │ ESC │SHIFT│ ALT │                  │     │SHIFT│CTRL │
+//                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴─────╯
+            bindings = <
+&trans      &kp LG(NO_1)      &kp LG(NO_2)    &kp LG(NO_3) &kp LG(NO_4)    &kp LG(NO_5)            &kp LG(NO_6)   &kp LG(NO_7)     &kp LG(NO_8)     &kp LG(NO_9) &kp LG(NO_0) &none
+&kp LG(TAB) &kp LG(NO_A)      &kp OMOD(NO_H)  &kp LG(UP)   &kp OMOD(NO_L)  &kp LG(SPACE)           &kp HOME       &kp PG_UP        &kp PG_DN        &kp END      &none        &none
+&trans      &kp OMOD(NO_DOT)  &kp LG(LEFT)    &kp LG(DOWN) &kp LG(RIGHT)   &kp OMOD(NO_MINS)       &kp OMOD(NO_V) &kp LC(LS(NO_C)) &kp LC(LS(NO_V)) &none        &trans       &none
+&trans      &kp OMOD(LEFT)    &kp OMOD(DOWN)  &kp OMOD(UP) &kp OMOD(RIGHT) &kp OMOD(NO_N)          &none          &kp LEFT         &kp RIGHT        &none        &none        &none
+                                              &kp ESC      &kp LSHFT       &trans                  &trans         &kp LSHFT        &kp LCTRL
             >;
 
         };
