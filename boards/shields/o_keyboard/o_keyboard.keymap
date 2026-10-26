@@ -1,3 +1,4 @@
+#include <behaviors.dtsi>
 #include <behaviors/unicode.dtsi> // For ÆØÅ https://github.com/urob/zmk-unicode?tab=readme-ov-file
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
