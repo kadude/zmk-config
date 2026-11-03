@@ -3,6 +3,7 @@
 #include <dt-bindings/zmk/keys.h>
 #include <dt-bindings/zmk/bt.h>
 #include <dt-bindings/zmk/ext_power.h>
+#include <dt-bindings/zmk/pointing.h>
 #include "keymap_norwegian.h"
 #include "programming_macros.dtsi"
 
@@ -83,8 +84,8 @@
         };
         // Same guard rails as letter_mod, but the hold enters a layer, and the key
         // must be held a half second before the layer arms. Used for the
-        // programming layer on A and the navigation layer on Ø, so fast typing
-        // on those common letters cannot trip them.
+        // programming layer on A, the navigation layer on Ø and the mouse layer
+        // on M, so fast typing on those common letters cannot trip them.
         slow_layer: slow_layer {
             compatible = "zmk,behavior-hold-tap";
             #binding-cells = <2>;
@@ -128,7 +129,7 @@
 //        │         │PROG │     │     │     │     │                              │     │     │     │     │ NAV │       │
 //        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
 //        │  CTRL   │  Z  │  X  │  C  │  V  │  B  │                              │  N  │  M  │  ,; │  .: │  -  │ ENTER │
-//        │         │CTRL+│     │     │     │     │                              │     │     │     │     │     │CTRL+  │
+//        │         │CTRL+│     │     │     │     │                              │     │MOUSE│     │     │     │CTRL+  │
 //        │         │SHFT+│     │     │     │     │                              │     │     │     │     │     │SHIFT  │
 //        │         │ GUI │     │     │     │     │                              │     │     │     │     │     │       │
 //        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼─────┼─────┼─────┴─────┴─────┴───────╯
@@ -139,7 +140,7 @@
 &kp ESC   &kp NO_1                      &kp NO_2 &kp NO_3   &kp NO_4       &kp NO_5          &kp NO_6      &kp NO_7  &kp NO_8         &kp NO_9   &kp NO_0       &mo 3
 &kp TAB   &kp NO_Q                      &kp NO_W &kp NO_E   &kp NO_R       &kp NO_T          &kp NO_Y      &kp NO_U  &kp NO_I         &kp NO_O   &kp NO_P       &kp NO_A_RING
 &kp LSHFT &slow_layer 6 NO_A            &kp NO_S &kp NO_D   &kp NO_F       &kp NO_G          &kp NO_H      &kp NO_J  &kp NO_K         &kp NO_L   &slow_layer 7 NO_O_SLASH &kp NO_AE
-&kp LCTRL &letter_mod LS(LC(LGUI)) NO_Z &kp NO_X &kp NO_C   &kp NO_V       &kp NO_B          &kp NO_N      &kp NO_M  &comma_semicolon &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
+&kp LCTRL &letter_mod LS(LC(LGUI)) NO_Z &kp NO_X &kp NO_C   &kp NO_V       &kp NO_B          &kp NO_N      &slow_layer 8 NO_M &comma_semicolon &dot_colon &kp NO_MINS    &mt LS(LCTRL) RET
                                                  &lt 1 LGUI &kp LSHIFT     &kp LALT          &kp BACKSPACE &kp SPACE &mo 2
             >;
 
@@ -322,6 +323,33 @@
 &trans      &kp OMOD(NO_DOT)  &kp LG(LEFT)    &kp LG(DOWN) &kp LG(RIGHT)   &kp OMOD(NO_MINS)       &kp OMOD(NO_V) &kp K_COPY       &kp K_PASTE &none        &trans       &none
 &trans      &kp OMOD(LEFT)    &kp OMOD(DOWN)  &kp OMOD(UP) &kp OMOD(RIGHT) &kp OMOD(NO_N)          &none          &kp LEFT         &kp RIGHT        &none        &none        &none
                                               &kp ESC      &kp LSHFT       &trans                  &trans         &kp LSHFT        &kp LCTRL
+            >;
+
+        };
+
+        mouse_layer {
+            display-name = "Mouse Layer";
+//        ╭─────────┬─────┬─────┬─────┬─────┬─────╮                              ╭─────┬─────┬─────┬─────┬─────┬───────╮
+//        │         │     │     │     │     │     │                              │     │     │     │     │     │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │         │     │SCRL │MOVE │SCRL │     │                              │     │     │     │     │     │       │
+//        │         │     │  ↑  │  ↑  │  ↓  │     │                              │     │     │     │     │     │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │         │ MB4 │MOVE │MOVE │MOVE │ MB5 │                              │     │     │     │     │     │       │
+//        │         │BACK │  ←  │  ↓  │  →  │FRWD │                              │     │     │     │     │     │       │
+//        ├─────────┼─────┼─────┼─────┼─────┼─────┤                              ├─────┼─────┼─────┼─────┼─────┼───────┤
+//        │         │     │     │     │     │     │                              │     │HOLD │     │     │     │       │
+//        │         │     │     │     │     │     │                              │     │ ME  │     │     │     │       │
+//        ╰─────────┴─────┴─────┴─────┼─────┼─────┼─────╮                  ╭─────┼─────┼─────┼─────┴─────┴─────┴───────╯
+//                                    │MID  │LEFT │RIGHT│                  │     │     │     │
+//                                    │CLICK│CLICK│CLICK│                  │     │     │     │
+//                                    ╰─────┴─────┴─────╯                  ╰─────┴─────┴─────╯
+            bindings = <
+&none  &none  &none          &none          &none           &none           &none  &none  &none  &none  &none  &none
+&none  &none  &msc SCRL_UP   &mmv MOVE_UP   &msc SCRL_DOWN  &none           &none  &none  &none  &none  &none  &none
+&none  &mkp MB4 &mmv MOVE_LEFT &mmv MOVE_DOWN &mmv MOVE_RIGHT &mkp MB5      &none  &none  &none  &none  &none  &none
+&none  &none  &none          &none          &none           &none           &none  &trans &none  &none  &none  &none
+                             &mkp MCLK      &mkp LCLK       &mkp RCLK       &none  &none  &none
             >;
 
         };
